@@ -1,144 +1,106 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../app_colors.dart';
+import '../../customWidget/app_bar.dart';
+import '../../customWidget/app_button.dart';
+import '../../customWidget/cart_tile.dart';
+import '../../font_style.dart';
+import '../CheckOut/checkout.dart';
 
-class CartPage extends StatelessWidget {
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: Text('My Cart'),
-      backgroundColor: Colors.greenAccent,
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 16.0),
-          child: Center(
-            child: Text(
-              '2 Items',
-              style: TextStyle(color: Colors.black54),
-            ),
-          ),
+class Cart extends StatelessWidget {
+  static const String routeName = 'cart';
+  const Cart({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Navigator.pushNamed(context, CheckOut.routeName);
+    return Scaffold(
+      backgroundColor: AppColors.whiteLight,
+      appBar: _buildAppBar(context),
+      body: _buildBody(context),
+      bottomSheet: _buildBottomSheet(context),
+    );
+  }
+
+  PreferredSize _buildAppBar(BuildContext context) {
+    return PreferredSize(
+      preferredSize:
+      Size(double.infinity, MediaQuery.of(context).size.height * .20.h),
+      child: CustomAppBar(
+        isHome: false,
+        title: 'Cart',
+        fixedHeight: 88.0.h,
+        enableSearchField: false,
+        leadingIcon:  Platform.isIOS
+            ? Icons.arrow_back_ios
+            : Icons.arrow_back,
+        leadingOnTap: () {
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return Container(
+      color: AppColors.white,
+      child: ListView.separated(
+        itemCount: 3,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Container(
+            color: AppColors.white,
+            margin: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 10.0.h),
+            child: const CartTile(),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return const Divider();
+        },
+      ),
+    );
+  }
+
+  Widget _buildBottomSheet(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0.r),
+          topRight: Radius.circular(20.0.r),
         ),
-      ],
-    ),
-    body: Padding(
-      padding: const EdgeInsets.all(16.0),
+      ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            child: ListView(
+          Container(
+            margin: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildCartItem('Jacket', 72, 2, 'assets/images/product2.jpeg'),
-                _buildCartItem('Laptop', 120, 5, 'assets/images/product3.jpeg'),
+                Text('Total price', style: FontStyles.montserratBold19()),
+                Text('\$239.98', style: FontStyles.montserratBold19()),
               ],
             ),
           ),
-          _buildSummary(),
-          SizedBox(height: 16),
-          _buildCheckoutButton(),
-        ],
-      ),
-    ),
-  );
-}
-Widget _buildCartItem(String title, int price, int weight, String imagePath) {
-  return Card(
-    elevation: 4,
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        children: [
-          Image.asset(imagePath, height: 50, width: 50),
-          SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 8),
-                Text('Price: \$$price'),
-                Text('Weight: ${weight}kg'),
-              ],
+          Container(
+            margin: EdgeInsets.only(bottom: 10.0.h),
+            child: AppButton.button(
+              text: 'Check Out',
+              color: AppColors.secondary,
+              height: 48.h,
+              width: size.width - 20.w,
+              onTap: () {
+                Navigator.pushNamed(context, CheckOut.routeName);
+              },
             ),
           ),
-          Row(
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.remove_circle_outline),
-              ),
-              Text('${weight}kg'),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.add_circle_outline),
-              ),
-            ],
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.delete, color: Colors.red),
-          ),
         ],
       ),
-    ),
-  );
-}
-
-Widget _buildSummary() {
-  return Card(
-    elevation: 4,
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          _buildSummaryRow('Total', '\$192'),
-          _buildSummaryRow('VAT', '\$5'),
-          _buildSummaryRow('Delivery fee', 'Free'),
-          Divider(),
-          _buildSummaryRow('Sub Total', '\$197', isBold: true),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget _buildSummaryRow(String label, String value, {bool isBold = false}) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 4.0),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-            fontSize: isBold ? 16 : 14,
-          ),
-        ),
-        Text(
-          value,
-          style: TextStyle(
-            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-            fontSize: isBold ? 16 : 14,
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _buildCheckoutButton() {
-  return ElevatedButton(
-    onPressed: () {},
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.greenAccent,
-      minimumSize: Size(double.infinity, 50),
-    ),
-    child: Text(
-      'Check Out',
-      style: TextStyle(fontSize: 18),
-    ),
-  );
-}
+    );
+  }
 }

@@ -1,60 +1,137 @@
 import 'package:flutter/material.dart';
-import '../../constants.dart';
-import '../../socal_card.dart';
-import 'components/sign_up_form.dart';
+import 'package:get/get.dart';
 
-class SignUpScreen extends StatelessWidget {
-  static String routeName = "/sign_up";
+import '../home_screen/home.dart';
+import '../mainhomepage/mainhome_screen.dart';
+import '../signin_screen/Signin_screen.dart';
 
-  const SignUpScreen({super.key});
+class  SignUpScreen extends StatelessWidget {
+  static var routeName;
+
+  const  SignUpScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Sign Up"),
-      ),
-      body: SafeArea(
-        child: SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 16),
-                  const Text("Register Account", style: headingStyle),
-                  const Text(
-                    "Complete your details or continue \nwith social media",
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  const SignUpForm(),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+      backgroundColor: Colors.black,
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Top Design
+                SizedBox(
+                  height: 150, // Give the Stack a fixed height
+                  child: Stack(
                     children: [
-                      SocalCard(
-                        icon: "assets/icons/google-icon.svg",
-                        press: () {},
-                      ),
-                      SocalCard(
-                        icon: "assets/icons/facebook-2.svg",
-                        press: () {},
-                      ),
-                      SocalCard(
-                        icon: "assets/icons/twitter.svg",
-                        press: () {},
+                      Positioned(
+                        top: -50,
+                        right: -50,
+                        child: CircleAvatar(
+                          radius: 100,
+                          backgroundColor: Colors.pink.shade200,
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'By continuing your confirm that you agree \nwith our Term and Condition',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  )
-                ],
-              ),
+                ),
+                const SizedBox(height: 20),
+
+                // Header
+                const Text(
+                  'Sign Up',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Hello! let\'s join with us',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 30),
+
+                // Email Field
+                TextField(
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.email),
+                    hintText: 'Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Password Field
+                TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.lock),
+                    hintText: 'Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Confirm Password Field
+                TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.lock),
+                    hintText: 'Confirm Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Privacy Policy
+                Row(
+                  children: [
+                    Checkbox(value: true, onChanged: (value) {}),
+                    const Text('I agree with privacy policy'),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                // Sign Up Button
+                ElevatedButton(
+                  onPressed: () {
+                    Get.to(() => Home ());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pink,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text(
+                    'SIGN UP',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Footer
+
+              ],
             ),
           ),
         ),

@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../signin_screen/Signin_screen.dart';
+
+
 class GetStarted extends StatefulWidget {
-  const GetStarted({Key? key}) : super(key: key);
+  const GetStarted({super.key});
 
   @override
   State<GetStarted> createState() => _GetStartedState();
@@ -39,7 +41,7 @@ class _GetStartedState extends State<GetStarted> {
                   SizedBox(
                     height: MediaQuery.of(context).size.width * 0.04,
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.80,
                     child: const Text(
                       "Scan products you want to buy at your favorite store and pay by your phone & enjoy happy, friendly Shopping!",
@@ -52,17 +54,17 @@ class _GetStartedState extends State<GetStarted> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,width: 40,
                   ),
                   InkWell(
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Color(0xFF33bf2e),
+                        color: const Color(0xFF33bf2e),
                       ),
                       alignment: Alignment.center,
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       width: MediaQuery.of(context).size.width * 0.80,
                       child: const Text(
                         "Get Started",
@@ -74,11 +76,7 @@ class _GetStartedState extends State<GetStarted> {
                       ),
                     ),
                     onTap: () {
-                      Future.delayed(Duration(seconds: 3), () {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => LoginPage ()),
-                     );
-                    });
+                      Get.to(()=> const LoginPage ());
                     },
                   )
                 ],

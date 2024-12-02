@@ -1,75 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../signup_screen/signup_screen.dart';
+
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    Future.delayed(Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => SignUpScreen ()),
-      );
-    });
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Container(
-          margin: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              header(context),
-              inputField(context),
-            ],
-          ),
+    return Scaffold(
+      body: Container(
+        margin: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _header(context),
+            _inputField(context),
+            _forgotPassword(context),
+            _signup(context),
+          ],
         ),
       ),
     );
   }
 
-  header(context) {
+  _header(context) {
     return const Column(
       children: [
         Text(
           "Welcome Back",
           style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
         ),
-        Text("Enter your credential to login"),
+        Text("Enter your credentials to login"),
       ],
     );
   }
-  inputField(context) {
+
+  _inputField(context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextField(
           decoration: InputDecoration(
-              hintText: "Username",
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18),
-                  borderSide: BorderSide.none
-              ),
-              fillColor: Colors.purple.withOpacity(0.1),
-              filled: true,
-              prefixIcon: const Icon(Icons.person)),
+            hintText: "Username",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide.none,
+            ),
+            fillColor: Colors.purple.withOpacity(0.1),
+            filled: true,
+            prefixIcon: const Icon(Icons.person),
+          ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         TextField(
           decoration: InputDecoration(
             hintText: "Password",
             border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(18),
-                borderSide: BorderSide.none),
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide.none,
+            ),
             fillColor: Colors.purple.withOpacity(0.1),
             filled: true,
-            prefixIcon: const Icon(Icons.password),
+            prefixIcon: const Icon(Icons.lock),  // Corrected icon to lock
           ),
           obscureText: true,
         ),
-         SizedBox(height: 10),
+        const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () {
+            // You might want to authenticate the user here before navigation
+            Get.to(() =>  SignUpScreen());  // Navigate to SignUpScreen
           },
           style: ElevatedButton.styleFrom(
             shape: const StadiumBorder(),
@@ -80,30 +80,37 @@ class LoginPage extends StatelessWidget {
             "Login",
             style: TextStyle(fontSize: 20),
           ),
-        )
+        ),
       ],
     );
   }
 
   _forgotPassword(context) {
     return TextButton(
-      onPressed: () {},
-      child: const Text("Forgot password?",
+      onPressed: () {
+        // Handle forgot password logic here (e.g., show a dialog or redirect to reset page)
+      },
+      child: const Text(
+        "Forgot password?",
         style: TextStyle(color: Colors.purple),
       ),
     );
   }
 
-  signup(context) {
+  _signup(context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Dont have an account? "),
+        const Text("Don't have an account? "),
         TextButton(
-            onPressed: () {
-            },
-            child: const Text("Sign Up", style: TextStyle(color: Colors.purple),)
-        )
+          onPressed: () {
+            Get.to(() =>  SignUpScreen()); // Corrected to navigation to SignUpScreen
+          },
+          child: const Text(
+            "Sign Up",
+            style: TextStyle(color: Colors.purple),
+          ),
+        ),
       ],
     );
   }

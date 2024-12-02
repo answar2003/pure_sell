@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../app_colors.dart';
 import '../../customWidget/app_button.dart';
 import '../../customWidget/cart_tile.dart';
@@ -8,13 +9,17 @@ import '../../customWidget/item_widget.dart';
 import '../../font_style.dart';
 import '../../product_data.dart';
 import '../../shimmer_effect.dart';
-class ProductPage extends StatelessWidget {
+
+// ignore: must_be_immutable
+class Product extends StatelessWidget {
   static const String routeName = 'product';
-  ProductPage({Key? key}) : super(key: key);
+  Product({Key? key}) : super(key: key);
   int index = 0;
   @override
   Widget build(BuildContext context) {
-
+    if (ModalRoute.of(context)!.settings.arguments != null) {
+      index = ModalRoute.of(context)!.settings.arguments as int;
+    }
     return Scaffold(
       backgroundColor: AppColors.whiteLight,
       body: _buildBody(context),
